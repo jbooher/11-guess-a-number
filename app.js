@@ -40,6 +40,15 @@ export function generateNumber() {
  * for that library here: https://github.com/anseki/readline-sync
  */
 
+export function getUserGuess() {
+  var guess;
+
+  readlineSync.setDefaultOptions({limit: Number, limitMessage: "That is not a number.  Please try again."});
+  guess = Number(readlineSync.question("Please enter your guess: "));
+
+  return validateGuess(guess);
+}
+
 function validateGuess(input) {
   while (input < 1 || input > 100) {
     console.log("");
@@ -49,21 +58,12 @@ function validateGuess(input) {
   }
 
   if (Math.floor(input) !== input) {
-    input = Math.floor(input);
+    // input = Math.floor(input);
     console.log("");
     console.log("Number was not an integer.  Rounded down.");
   }
 
   return input;
-}
-
-export function getUserGuess() {
-  var guess;
-
-  readlineSync.setDefaultOptions({limit: Number, limitMessage: "That is not a number.  Please try again."});
-  guess = Number(readlineSync.question("Please enter your guess: "));
-
-  return validateGuess(guess);
 }
 
 /**
@@ -112,6 +112,36 @@ export function isRightNumber(correctNumber, userGuess) {
  * congratulatory message for winning the game.
  */
 
+function validateAnswer (guess, random, lives) {
+
+  while (lives > 0) {
+    if (isRightNumber(random, guess)){
+      console.log("");
+      console.log("Congratulations!  You guessed the correct number!  Great job!");
+      return;
+    }
+    if (random > guess) {
+      console.log("");
+      console.log("I'm thinking of a number larger than that. You have " + lives + " tries left.");
+      console.log("");
+      guess = Number(getUserGuess());
+    }
+    else {
+      console.log("");
+      console.log("I'm thinking of a number smaller than that. You have " + lives + " tries left.");
+      console.log("");
+      guess = Number(getUserGuess());
+    }
+    lives--;
+  }
+
+  if (lives <= 1) { 
+    console.log("");
+    console.log("You lose!  Play again with all new numbers by entering 'npm start'.");
+    console.log("Good luck!");
+  }
+}
+
 function runGame() {
 
   console.log("Welcome to the Guess the Number Game!  I'm thinking of a number between 1 and 100.  You will try to guess my number, and I will give you some hints to get right number!");
@@ -129,28 +159,13 @@ function runGame() {
     return;
   }
 
+  var playerLives = 4;
   var random = generateNumber();
-  var guess = getUserGuess();
+  var guess = Number(getUserGuess());
+  console.log(random);
 
-  while (!isRightNumber(random, guess)) {
-    if (random > guess) {
-      console.log("");
-      console.log("I'm thinking of a number larger than that. Try again.");
-      console.log("");
-      guess = getUserGuess();
-    }
-    else {
-      console.log("");
-      console.log("My number is lower than that.  Try again.");
-      console.log("");
-      guess = getUserGuess();
-    }
-  }
+  validateAnswer(guess, random, playerLives);
 
-  if (isRightNumber(random, guess)){
-    console.log("");
-    console.log("Congratulations!  You guessed the correct number!  Great job!");
-  }
 }
 
 /**
