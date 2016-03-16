@@ -135,7 +135,7 @@ function validateAnswer (guess, random, lives) {
     lives--;
   }
 
-  if (lives <= 1) { 
+  if (lives <= 1) {
     console.log("");
     console.log("You lose!  Play again with all new numbers by entering 'npm start'.");
     console.log("Good luck!");
@@ -162,7 +162,6 @@ function runGame() {
   var playerLives = 4;
   var random = generateNumber();
   var guess = Number(getUserGuess());
-  console.log(random);
 
   validateAnswer(guess, random, playerLives);
 
