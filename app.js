@@ -10,7 +10,6 @@
  */
 
 import readlineSync from 'readline-sync';
-
 /**
  * When the game is complete, we need a way to generate
  * random numbers. JavaScript can do this with the
@@ -23,8 +22,10 @@ import readlineSync from 'readline-sync';
  */
 
 export function generateNumber() {
-  // YOUR CODE HERE
-  // BE SURE IT'S AN INTEGER OR YOU WILL BE SAD
+
+  var integer = Math.floor(Math.random() * 6) + 1;
+
+  return integer;
 }
 
 /**
@@ -41,7 +42,9 @@ export function generateNumber() {
  */
 
 export function getUserGuess() {
-	// YOUR CODE HERE
+
+  var userGuess = readlineSync.question("Please enter your guess: ");
+
 }
 
 /**
@@ -55,7 +58,12 @@ export function getUserGuess() {
  */
 
 export function isRightNumber(correctNumber, userGuess) {
-  // YOUR CODE HERE
+  if (correctNumber === userGuess) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 /**
@@ -88,6 +96,19 @@ export function isRightNumber(correctNumber, userGuess) {
 function runGame() {
 	// DISPLAY WELCOME BANNER
 
+  console.log("Welcome to the Guess the Number Game!  I'm thinking of a number between 1 and 100.  You will try to guess my number, and I will give you some hints to get right number!")
+  console.log("");
+  if (readlineSync.keyInYN('Ready? ')) {
+    console.log("");
+    console.log("Awesome.  Let's get started!");
+    console.log("");
+  }
+  else {
+    console.log("");
+    console.log("Alright then.  Enter 'npm start' if you want to play again.");
+    console.log("");
+    return;
+  }
 	// STORE INITIAL GAME STATE
 
 	// WHILE LOOP FOR WHEN GAME IS NOT WON
